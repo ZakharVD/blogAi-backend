@@ -34,10 +34,9 @@ async function loginUser(req, res) {
     if (userDoc !== null) {
       const isPasswordValid = bcrypt.compareSync(password, userDoc.password);
       if (isPasswordValid === true) {
-        // logged in
         jwt.sign({ username, id: userDoc._id }, secret, (error, token) => {
           if (error) throw error;
-          res.cookie("token", token, {domain: "blogai-web.netlify.app"}).status(200).json({
+          res.cookie("token", token, {domain: "blogai-web.netlify.app", secure: true, sameSite: "none"}).status(200).json({
             message: "User have been logged in successfully",
             id: userDoc._id,
             username,
