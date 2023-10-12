@@ -39,6 +39,7 @@ async function loginUser(req, res) {
           res.cookie("token", token, { 
             httpOnly: true, 
             domain: "https://blogai-web.netlify.app",
+            path: "/login",
             sameSite: "none",
             secure: true,
           }).status(200).json({
