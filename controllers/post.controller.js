@@ -22,10 +22,10 @@ async function createPost(req, res) {
         });
       });
     } else {
-      return res.json({ message: "No token provided" });
+      return res.status(400).json({ message: "No token provided" });
     }
   } catch (error) {
-    return res.status(400).json({ message: "Error creating a post" });
+    return res.status(500).json({ message: "Error creating a post" });
   }
 }
 
@@ -47,7 +47,7 @@ async function updatePost(req, res) {
       return res.status(400).json({ message: "No token provided" });
     }
   } catch (error) {
-    return res.status(400).json({ message: "Error updating a post" });
+    return res.status(500).json({ message: "Error updating a post" });
   }
 }
 
@@ -65,7 +65,7 @@ async function deletePost(req, res) {
       return res.status(400).json({ message: "No token provided" });
     }
   } catch (error) {
-    return es.status(400).json({ message: "Error deleting post" });
+    return es.status(500).json({ message: "Error deleting post" });
   }
 }
 
@@ -88,7 +88,7 @@ async function getPost(req, res) {
     ]);
     return res.status(200).json(postData);
   } catch (error) {
-    return res.status(400).json({ message: "Error getting the post" });
+    return res.status(500).json({ message: "Error getting the post" });
   }
 }
 
@@ -112,7 +112,7 @@ async function getPostsOfUser(req, res) {
       return res.status(400).json({ message: "No token provided" });
     }
   } catch (error) {
-    res.status(400).json({ message: "Error deleting post" });
+    res.status(500).json({ message: "Error deleting post" });
   }
 }
 
