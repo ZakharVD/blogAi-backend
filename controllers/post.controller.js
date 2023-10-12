@@ -6,9 +6,10 @@ const secret = process.env.JWT_SECRET;
 
 async function createPost(req, res) {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization;
     if (token) {
-      jwt.verify(token, secret, {}, async (error, info) => {
+      const tokenValue = token.split(" ")[1];
+      jwt.verify(tokenValue, secret, {}, async (error, info) => {
         if (error) throw error;
         const { title, content } = req.body;
         const postData = await PostModel.create({
@@ -31,9 +32,10 @@ async function createPost(req, res) {
 
 async function updatePost(req, res) {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization;
     if (token) {
-      jwt.verify(token, secret, {}, async (error, info) => {
+      const tokenValue = token.split(" ")[1];
+      jwt.verify(tokenValue, secret, {}, async (error, info) => {
         if (error) throw error;
         const { postId } = req.params;
         const { title, content } = req.body;
@@ -53,9 +55,10 @@ async function updatePost(req, res) {
 
 async function deletePost(req, res) {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization;
     if (token) {
-      jwt.verify(token, secret, {}, async (error, info) => {
+      const tokenValue = token.split(" ")[1];
+      jwt.verify(tokenValue, secret, {}, async (error, info) => {
         if (error) throw error;
         const { postId } = req.params;
         await PostModel.findByIdAndRemove(postId);
@@ -65,7 +68,7 @@ async function deletePost(req, res) {
       return res.status(400).json({ message: "No token provided" });
     }
   } catch (error) {
-    return es.status(500).json({ message: "Error deleting post" });
+    return res.status(500).json({ message: "Error deleting post" });
   }
 }
 
@@ -94,10 +97,11 @@ async function getPost(req, res) {
 
 async function getPostsOfUser(req, res) {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization;
     const { userId } = req.params;
     if (token) {
-      jwt.verify(token, secret, {}, async (error, info) => {
+      const tokenValue = token.split(" ")[1];
+      jwt.verify(tokenValue, secret, {}, async (error, info) => {
         if (error) throw error;
         const user = await UserModel.findById(userId);
         if (!user) {

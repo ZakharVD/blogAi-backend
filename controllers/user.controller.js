@@ -57,9 +57,10 @@ async function loginUser(req, res) {
 
 function getProfile(req, res) {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.authorization;
     if (token) {
-      jwt.verify(token, secret, {}, (error, info) => {
+      const tokenValue = token.split(" ")[1];
+      jwt.verify(tokenValue, secret, {}, (error, info) => {
         if (error) throw error;
         return res.status(200).json(info);
       });
