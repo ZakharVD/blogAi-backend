@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerUser, loginUser, getProfile, logoutUser } = require("../controllers/user.controller");
+const { registerUser, loginUser, getProfile } = require("../controllers/user.controller");
 const { createPost, updatePost, deletePost, getPosts, getPost, getPostsOfUser } = require("../controllers/post.controller");
 
 const router = new express.Router();
@@ -8,7 +8,7 @@ const router = new express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", getProfile);
-router.post("/logout", logoutUser);
+// router.post("/logout", logoutUser);
 //posts
 router.post("/post", createPost);
 router.put("/post/:postId", updatePost);

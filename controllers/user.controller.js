@@ -36,12 +36,8 @@ async function loginUser(req, res) {
       if (isPasswordValid === true) {
         jwt.sign({ username, id: userDoc._id }, secret, (error, token) => {
           if (error) throw error;
-          res.cookie("token", token, { 
-            httpOnly: true, 
-            domain: "https://blogai-web.netlify.app",
-            sameSite: "none",
-            secure: true,
-          }).status(200).json({
+          res.status(200).json({
+            token: token,
             message: "User have been logged in successfully",
             id: userDoc._id,
             username,
@@ -61,7 +57,8 @@ async function loginUser(req, res) {
 
 function getProfile(req, res) {
   try {
-    const token = req.cookies.token;
+    const header = req.headers.authorization;
+    const token = header.split(" ")[1];
     if (token) {
       jwt.verify(token, secret, {}, (error, info) => {
         if (error) throw error;
@@ -76,14 +73,13 @@ function getProfile(req, res) {
   }
 }
 
-function logoutUser(req, res) {
-  res.cookie("token", "").status(200).json("logout ok");
-}
+// function logoutUser(req, res) {
+//   res.cookie("token", "").status(200).json("logout ok");
+// }
 
 module.exports = {
   registerUser,
   loginUser,
   getProfile,
-  logoutUser,
 };
 //{domain: "blogai-web.netlify.app", secure: true, sameSite: "none"}

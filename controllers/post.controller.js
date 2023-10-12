@@ -6,12 +6,8 @@ const secret = process.env.JWT_SECRET;
 
 async function createPost(req, res) {
   try {
-    const token = req.cookies.token;
-    console.log({
-      req: req,
-      cookies: req.cookies,
-      token: req.cookies.token,
-    })
+    const header = req.headers.authorization;
+    const token = header.split(" ")[1];
     if (token) {
       jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
@@ -36,7 +32,8 @@ async function createPost(req, res) {
 
 async function updatePost(req, res) {
   try {
-    const token = req.cookies.token;
+    const header = req.headers.authorization;
+    const token = header.split(" ")[1];
     if (token) {
       jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
@@ -58,7 +55,8 @@ async function updatePost(req, res) {
 
 async function deletePost(req, res) {
   try {
-    const token = req.cookies.token;
+    const header = req.headers.authorization;
+    const token = header.split(" ")[1];
     if (token) {
       jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
@@ -99,7 +97,8 @@ async function getPost(req, res) {
 
 async function getPostsOfUser(req, res) {
   try {
-    const token = req.cookies.token;
+    const header = req.headers.authorization;
+    const token = header.split(" ")[1];
     const { userId } = req.params;
     if (token) {
       jwt.verify(token, secret, {}, async (error, info) => {
