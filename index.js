@@ -11,7 +11,7 @@ const PORT = 4000;
 
 app.use(cors({
     credentials: true,
-    origin: "https://blogai-web.netlify.app",
+    origin: ["https://blogai-web.netlify.app", "http://localhost:3000"],
 }));
 app.use(express.json());
 app.use(cookieParser());

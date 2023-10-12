@@ -56,14 +56,19 @@ async function loginUser(req, res) {
 }
 
 function getProfile(req, res) {
-  const { token } = req.cookies;
-  if (token) {
-    jwt.verify(token, secret, {}, (error, info) => {
-      if (error) throw error;
-      return res.json(info);
-    });
-  } else {
-    return res.json({ message: "No token provided" });
+  try {
+    const { token } = req.cookies;
+    if (token) {
+      jwt.verify(token, secret, {}, (error, info) => {
+        if (error) throw error;
+        return res.status(200).json(info);
+      });
+    } else {
+      return res.status(400).json({ message: "No token provided" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "error occured" });
   }
 }
 
