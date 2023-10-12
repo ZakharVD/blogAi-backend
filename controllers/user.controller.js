@@ -36,7 +36,12 @@ async function loginUser(req, res) {
       if (isPasswordValid === true) {
         jwt.sign({ username, id: userDoc._id }, secret, (error, token) => {
           if (error) throw error;
-          res.cookie("token", token, { httpOnly: true, domain: "blogai-web.netlify.app"}).status(200).json({
+          res.cookie("token", token, { 
+            httpOnly: true, 
+            domain: "https://blogai-web.netlify.app",
+            sameSite: "none",
+            secure: true,
+          }).status(200).json({
             message: "User have been logged in successfully",
             id: userDoc._id,
             username,
