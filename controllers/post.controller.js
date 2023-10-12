@@ -7,6 +7,11 @@ const secret = process.env.JWT_SECRET;
 async function createPost(req, res) {
   try {
     const token = req.cookies.token;
+    console.log({
+      req: req,
+      cookies: req.cookies,
+      token: req.cookies.token,
+    })
     if (token) {
       jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
