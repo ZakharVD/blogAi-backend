@@ -13,8 +13,8 @@ app.use(cors({
     credentials: true,
     origin: ["https://blogai-web.netlify.app", "http://localhost:3000"],
 }));
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 app.use("/api", router);
 
 async function onServerStart() {

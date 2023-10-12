@@ -6,10 +6,9 @@ const secret = process.env.JWT_SECRET;
 
 async function createPost(req, res) {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     if (token) {
-      const tokenValue = token.split(" ")[1];
-      jwt.verify(tokenValue, secret, {}, async (error, info) => {
+      jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
         const { title, content } = req.body;
         const postData = await PostModel.create({
@@ -32,10 +31,9 @@ async function createPost(req, res) {
 
 async function updatePost(req, res) {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     if (token) {
-      const tokenValue = token.split(" ")[1];
-      jwt.verify(tokenValue, secret, {}, async (error, info) => {
+      jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
         const { postId } = req.params;
         const { title, content } = req.body;
@@ -55,10 +53,9 @@ async function updatePost(req, res) {
 
 async function deletePost(req, res) {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     if (token) {
-      const tokenValue = token.split(" ")[1];
-      jwt.verify(tokenValue, secret, {}, async (error, info) => {
+      jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
         const { postId } = req.params;
         await PostModel.findByIdAndRemove(postId);
@@ -97,11 +94,10 @@ async function getPost(req, res) {
 
 async function getPostsOfUser(req, res) {
   try {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     const { userId } = req.params;
     if (token) {
-      const tokenValue = token.split(" ")[1];
-      jwt.verify(tokenValue, secret, {}, async (error, info) => {
+      jwt.verify(token, secret, {}, async (error, info) => {
         if (error) throw error;
         const user = await UserModel.findById(userId);
         if (!user) {
